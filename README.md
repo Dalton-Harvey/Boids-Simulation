@@ -1,6 +1,6 @@
 # Boids Simulation
 
-A browser-based flocking simulation built with p5.js, implementing Craig Reynolds' Boids algorithm. Three simple rules — cohesion, separation, and alignment — produce emergent flocking behavior resembling birds or schooling fish.
+A browser-based flocking simulation built with p5.js, implementing Craig Reynolds' Boids algorithm. Three simple rules cohesion, separation, and alignment produce emergent flocking behavior resembling birds or schooling fish.
 
 ## Demo
 
@@ -15,15 +15,6 @@ Each boid follows three rules every frame:
 - **Alignment** — match the average velocity of nearby boids
 
 Boids only react to neighbors within a forward-facing field of view, ignoring anything behind them. The combination of these rules produces complex group behavior from no central coordination.
-
-## Project Structure
-
-```
-boids/
-  index.html    # Shell, loads p5 and sketch
-  boids.js      # All simulation logic
-  p5.min.js     # p5.js local copy
-```
 
 ## Configuration
 
