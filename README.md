@@ -29,6 +29,7 @@ All tunable constants are at the top of `boids.js`:
 | `COHERENCE_RADIUS` | Perception radius in grid units |
 | `SEPARATION_RADIUS` | Separation trigger radius in grid units |
 | `MAXSPEED` | Maximum boid velocity |
+| `FIELD OF VIEW` | The Field of View the Boids use to detect each other |
 
 ## Built With
 

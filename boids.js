@@ -6,6 +6,7 @@ const ALIGNMENT = 0.3;
 const COHERENCE_RADIUS = 6;
 const SEPERATION_RADIUS = 2;
 const MAXSPEED = 1;
+const FOV = Math.PI;
 const height = 1080;
 const width = 1920;
 let cols,rows,grid,boids;
@@ -47,6 +48,7 @@ function initBoids(){
 
 function draw(){
     background(0)
+
     for(let b = 0; b < BOID_COUNT; b++){
         let boid = boids[b];
         push();
@@ -83,7 +85,7 @@ function boidDetection(boid, other, radius){
     let dot = fx*dx + fy*dy;
 
     //dot = 1 neighbor is in front, dot = 0 neighbor is exactly 90 degrees, dot = -1 neighbor is behind
-    return dot > cos(Math.PI/4);
+    return dot > cos(FOV);
 }
 
 function findVel(boid){
@@ -169,7 +171,6 @@ function findVel(boid){
 }
 
 function moveBoids(){
-    let newGrid = Array. from({length: rows}, ()=> Array(cols).fill(0));
 
     for(let b = 0; b < BOID_COUNT; b++){
         let boid = boids[b]; 
