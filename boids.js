@@ -1,4 +1,4 @@
-const SIZE = 5;
+const SIZE = 6;
 const BOID_COUNT = 1000;
 const COHERENCE = 0.01;
 const SEPERATION = 0.08;
@@ -46,27 +46,45 @@ function initBoids(){
     return newBoids;
 }
 
+
+function getColor(boid, c){
+    let boidCount = 0
+    for(let b = 0; b < BOID_COUNT; b++){
+        if(boids[b] == boid) continue;
+
+        if(boidDetection(boid,boids[b], COHERENCE_RADIUS*1.25, Math.PI)){
+            boidCount += 1; 
+        }
+
+    }
+
+    let t = boidCount/50;
+    let red = lerp(100,0,t); 
+    let green = lerp(150,180,t); 
+    let blue = lerp(100,180,t); 
+
+    return { red:red, green:green, blue:blue }
+}
+
 function draw(){
     background(0)
 
     for(let b = 0; b < BOID_COUNT; b++){
         let boid = boids[b];
+        let color = getColor(boid, boid.pos.x);
         push();
         translate(boid.pos.x * SIZE, boid.pos.y * SIZE);
         rotate(atan2(boid.vel.y, boid.vel.x));
-        fill(255);
+        fill(color.red,color.green,color.blue);
         noStroke();
         triangle(SIZE, 0, -SIZE/2, -SIZE/2, -SIZE/2, SIZE/2);
         pop();
-        // fill(255);
-        // noStroke();
-        // rect(boid.pos.x * SIZE, boid.pos.y * SIZE, SIZE,SIZE);
     }
 
     moveBoids();
 }
 
-function boidDetection(boid, other, radius){ 
+function boidDetection(boid, other, radius, fov){ 
     let dx = other.pos.x - boid.pos.x;
     let dy = other.pos.y - boid.pos.y;
 
@@ -85,7 +103,7 @@ function boidDetection(boid, other, radius){
     let dot = fx*dx + fy*dy;
 
     //dot = 1 neighbor is in front, dot = 0 neighbor is exactly 90 degrees, dot = -1 neighbor is behind
-    return dot > cos(FOV);
+    return dot > cos(fov);
 }
 
 function findVel(boid){
@@ -100,7 +118,7 @@ function findVel(boid){
 
         if(boids[b] == boid) continue;
         
-        if(boidDetection(boid,boids[b], SEPERATION_RADIUS))
+        if(boidDetection(boid,boids[b], SEPERATION_RADIUS, FOV))
         {
             toCloseBoids.push(boids[b]);
 
@@ -116,7 +134,7 @@ function findVel(boid){
             sX += eX;
             sY += eY;
         }
-        else if(boidDetection(boid,boids[b], COHERENCE_RADIUS))//either out of range or out of FOV
+        else if(boidDetection(boid,boids[b], COHERENCE_RADIUS, FOV))//either out of range or out of FOV
         {
             spottedBoids.push(boids[b]);
 
